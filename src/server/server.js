@@ -8,7 +8,7 @@ import { indexTemplate } from './indexTemplate';
 
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use('/static', express.static('./dist/client', {
   setHeaders: (res, path) => {
@@ -18,12 +18,13 @@ app.use('/static', express.static('./dist/client', {
   },
 }));
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.send(
     indexTemplate(ReactDOMServer.renderToString(App())),
   );
 });
 
-app.listen(port, () => {
-  console.log(`Server started on http://localhost:${port}/`);
+
+app.listen(PORT, () => {
+  console.log(`server started on port http://localhost:${PORT}`);
 });
