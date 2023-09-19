@@ -25,14 +25,11 @@ module.exports = {
     alias: {
       '@': path.resolve(__dirname, 'src'),
       '@components': path.resolve(__dirname, 'src/components'),
-      '@UI': path.resolve(__dirname, 'src/UI'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@style': path.resolve(__dirname, 'src/style'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
-      '@services': path.resolve(__dirname, 'src/services'),
-      '@utils': path.resolve(__dirname, 'src/utils'),
       '@assets': path.resolve(__dirname, 'src/assets'),
       '@modules': path.resolve(__dirname, 'src/modules'),
-      '@contexts': path.resolve(__dirname, 'src/contexts'),
-      '@__mocks__': path.resolve(__dirname, 'src/__mocks__'),
     },
   },
   entry: [
@@ -129,7 +126,7 @@ module.exports = {
   devServer: {
     port: 3000,
     open: true,
-    hot: true,
+    hot: IS_DEV,
     historyApiFallback: true,
   },
 

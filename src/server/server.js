@@ -24,6 +24,18 @@ app.get('*', (req, res) => {
   );
 });
 
+// app.get('/', (req, res) => {
+//   res.send(
+//     indexTemplate(ReactDOMServer.renderToString(App())),
+//   );
+// });
+
+// app.get('/services', (req, res) => {
+//   res.send(
+//     indexTemplate(ReactDOMServer.renderToString(App())),
+//   );
+// });
+
 
 app.listen(PORT, () => {
   console.log(`server started on port http://localhost:${PORT}`);

@@ -1,0 +1,16 @@
+.main {
+  min-height: calc(100vh - 211.781px);
+  contain: paint;
+}
+
+@media (max-width: 1024px) {
+  .main {
+    min-height: calc(100vh - 147.516px);
+  }
+}
+
+@media (max-width: 576px) {
+  .main {
+    min-height: calc(100vh - 219.391px);
+  }
+}

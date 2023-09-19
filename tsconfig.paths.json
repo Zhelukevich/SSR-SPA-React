@@ -8,17 +8,14 @@
       "@hooks/*": [
         "./hooks/*"
       ],
-      "@store/*": [
-        "./store/*"
-      ],
       "@pages/*": [
         "./pages/*"
       ],
       "@modules/*": [
         "./modules/*"
       ],
-      "@images/*": [
-        "./images/*"
+      "@assets/*": [
+        "./assets/*"
       ],
       "@style/*": [
         "./style/*"
