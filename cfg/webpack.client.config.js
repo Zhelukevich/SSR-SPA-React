@@ -29,10 +29,10 @@ module.exports = {
     'webpack-hot-middleware/client?path=http://localhost:3001/static/__webpack_hmr',
   ],
   output: {
-    path: path.resolve(__dirname, '../dist/client'),
+    path: path.resolve(__dirname, '../dist'),
     filename: 'js/[name].[contenthash].js',
     publicPath: '/',
-    assetModuleFilename: 'client/assets/[hash][ext]',
+    assetModuleFilename: 'assets/[hash][ext]',
   },
   module: {
     rules: [
@@ -68,31 +68,31 @@ module.exports = {
         test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'client/assets/images/[name].[contenthash][ext]',
+          filename: 'assets/images/[name].[contenthash][ext]',
         },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'client/assets/fonts/[name].[contenthash][ext]',
+          filename: 'assets/fonts/[name].[contenthash][ext]',
         },
       },
       {
         test: /\.(mp4|pdf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'client/assets/video/[name].[contenthash][ext]',
+          filename: 'assets/video/[name].[contenthash][ext]',
         },
       },
     ],
   },
 
   plugins: IS_PROD ? [
-    new CleanWebpackPlugin(),
+    // new CleanWebpackPlugin(),
     new HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public/index.html'),
+      template: path.resolve(__dirname, '../public/index.html'),
     }),
     new CssMinimizerPlugin(),
     new CopyWebpackPlugin({
@@ -104,7 +104,7 @@ module.exports = {
   ] : [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public/index.html'),
+      template: path.resolve(__dirname, '../public/index.html'),
     }),
   ],
 

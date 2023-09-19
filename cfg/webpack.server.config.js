@@ -1,5 +1,7 @@
 const path = require('path');
 
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const nodeExternals = require('webpack-node-externals');
 
@@ -53,25 +55,29 @@ module.exports = {
         test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'client/assets/images/[name].[contenthash][ext]',
+          filename: 'assets/images/[name].[contenthash][ext]',
         },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'client/assets/fonts/[name][ext]',
+          filename: 'assets/fonts/[name][ext]',
         },
       },
       {
         test: /\.(mp4|pdf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'client/assets/video/[name].[contenthash][ext]',
+          filename: 'assets/video/[name].[contenthash][ext]',
         },
       },
     ],
   },
+
+  // plugins: [
+  //   new CleanWebpackPlugin(),
+  // ],
 
   optimization: {
     minimize: false,

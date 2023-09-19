@@ -7,6 +7,7 @@ import { Layout } from './modules/Layout';
 import { HomePage } from './pages/HomePage';
 const ServicesPage = lazy(() => import('./pages/ServicesPage/ServicesPage'));
 
+import './styles/main.global.css';
 // const isBrowser = typeof window !== 'undefined';
 
 function AppWrap() {

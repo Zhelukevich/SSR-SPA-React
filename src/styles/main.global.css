@@ -1,0 +1,52 @@
+:root {
+  --text-color-f1: #02252d;
+  --text-color-f2: #ffffff;
+  --text-color-f3: #20b9dc;
+  --text-color-f4: #8e939a;
+  --text-color-f5: #f5f5f7;
+  --text-color-f6: #6c6f6f;
+  --text-color-f7: #00e1ff;
+  --text-color-f8: #111111;
+  --text-color-f9: #b0b5b9;
+
+  --btn-hover-f1: #12a0c0;
+  --btn-active-f1: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  --transition: all 0.3s ease-in;
+
+  --background-f1: #f5f5f5;
+  --background-f2: #ffffff;
+  --background-f3: #20b9dc;
+  --background-f4: #02252d;
+  --background-f5: #1b9140;
+  --background-f6: rgba(0, 0, 0, 0.5);
+  --background-f7: rgba(32, 185, 220, 0.2);
+  --background-f8: #d7d8dc;
+  --background-f9: #6c6f6f;
+  --background-f10: #d7dbe2;
+  --background-f11: #12a0c0;
+  --background-f12: rgba(0, 0, 0, 0.7);
+  --background-f13: #d7d8dc;
+  --background-f14: rgb(217, 217, 217, 0.5);
+
+  --border-f1: 1px solid #20b9dc;
+  --border-f2: 1px solid #d2d2d2;
+  --border-f3: 1px solid #e6e6e6;
+  --border-f4: 1px solid #dfdfdf;
+  --border-f5: 1px solid #dadada;
+  --border-f6: 1px solid #cecece;
+  --border-f7: 1px solid #f4f4f4;
+
+  --box-shadow-f1: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+  --box-shadow-f2: 2px 4px 12px 0px rgba(0, 0, 0, 0.08);
+  --box-shadow-f3: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+
+  --montserrat: 'Montserrat';
+}
+
+body {
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-color-f1);
+  background-color: var(--background-f1);
+}
