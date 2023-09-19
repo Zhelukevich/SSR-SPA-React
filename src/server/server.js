@@ -1,42 +1,32 @@
+// server/express.js
+const fs = require('fs');
+const path = require('path');
 
-import express from 'express';
-import ReactDOMServer from 'react-dom/server';
-
-import { App } from '../App';
-
-import { indexTemplate } from './indexTemplate';
-
+const express = require('express');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use('/static', express.static('./dist/client', {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.js')) {
-      res.setHeader('Content-Type', 'text/javascript');
-    }
-  },
-}));
+// Serve static files
+app.get(/\.(js|css|map|ico)$/, express.static(path.resolve(__dirname, '../dist')));
 
-app.get('*', (req, res) => {
-  res.send(
-    indexTemplate(ReactDOMServer.renderToString(App())),
-  );
+// Handle all other routes
+app.use('*', (req, res) => {
+  const filePath = path.resolve(__dirname, `../dist${req.url}`);
+  if (fs.existsSync(filePath)) {
+    const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' });
+    res.contentType('text/html');
+    res.status(200);
+    return res.send(fileContent);
+  } else {
+    const indexHTML = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), { encoding: 'utf8' });
+    res.contentType('text/html');
+    res.status(200);
+    return res.send(indexHTML);
+  }
 });
 
-// app.get('/', (req, res) => {
-//   res.send(
-//     indexTemplate(ReactDOMServer.renderToString(App())),
-//   );
-// });
-
-// app.get('/services', (req, res) => {
-//   res.send(
-//     indexTemplate(ReactDOMServer.renderToString(App())),
-//   );
-// });
-
-
+// Start the server
 app.listen(PORT, () => {
-  console.log(`server started on port http://localhost:${PORT}`);
+  console.log(`Express server started at <http://localhost:${PORT}>`);
 });

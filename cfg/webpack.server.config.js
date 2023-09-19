@@ -53,21 +53,21 @@ module.exports = {
         test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'assets/images/[name].[contenthash][ext]',
+          filename: 'client/assets/images/[name].[contenthash][ext]',
         },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'assets/fonts/[name][ext]',
+          filename: 'client/assets/fonts/[name][ext]',
         },
       },
       {
         test: /\.(mp4|pdf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'assets/video/[name].[contenthash][ext]',
+          filename: 'client/assets/video/[name].[contenthash][ext]',
         },
       },
     ],

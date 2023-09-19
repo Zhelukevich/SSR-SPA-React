@@ -1,8 +1,9 @@
 const path = require('path');
 
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const { HotModuleReplacementPlugin } = require('webpack');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -19,34 +20,19 @@ function setupDevtool() {
 }
 
 module.exports = {
-  mode: NODE_ENV ? NODE_ENV : 'development',
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-      '@components': path.resolve(__dirname, 'src/components'),
-      '@pages': path.resolve(__dirname, 'src/pages'),
-      '@style': path.resolve(__dirname, 'src/style'),
-      '@hooks': path.resolve(__dirname, 'src/hooks'),
-      '@assets': path.resolve(__dirname, 'src/assets'),
-      '@modules': path.resolve(__dirname, 'src/modules'),
-    },
   },
+  mode: NODE_ENV ? NODE_ENV : 'development',
   entry: [
     path.resolve(__dirname, '../src/client/index.jsx'),
     'webpack-hot-middleware/client?path=http://localhost:3001/static/__webpack_hmr',
   ],
   output: {
     path: path.resolve(__dirname, '../dist/client'),
-    // filename: '[name].[contenthash].js',
-    // chunkFilename: '[name].[contenthash].js',
-    filename: 'client.js',
-    publicPath: '/static/',
+    filename: 'js/[name].[contenthash].js',
+    publicPath: '/',
     assetModuleFilename: 'client/assets/[hash][ext]',
-  },
-  watchOptions: {
-    ignored: /node_modules/,
-    poll: 1000,
   },
   module: {
     rules: [
@@ -55,10 +41,6 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-react'],
-            plugins: [require.resolve('react-refresh/babel')],
-          },
         },
       },
       {
@@ -93,7 +75,7 @@ module.exports = {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'client/assets/fonts/[name][ext]',
+          filename: 'client/assets/fonts/[name].[contenthash][ext]',
         },
       },
       {
@@ -106,20 +88,23 @@ module.exports = {
     ],
   },
 
-  plugins: IS_DEV ? [
+  plugins: IS_PROD ? [
     new CleanWebpackPlugin(),
     new HotModuleReplacementPlugin(),
-    new ReactRefreshWebpackPlugin(),
-    // new CopyWebpackPlugin({
-    //   patterns: [{ from: 'public/favicons', to: 'favicons' }],
-    // }),
-  ] : [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public/index.html'),
+    }),
     new CssMinimizerPlugin(),
-    // new CopyWebpackPlugin({
-    //   patterns: [{ from: 'public/favicons', to: 'favicons' }],
-    // }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: 'public/favicons', to: 'favicons' }],
+    }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
+    }),
+  ] : [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public/index.html'),
     }),
   ],
 
@@ -133,40 +118,43 @@ module.exports = {
   optimization: {
     minimize: true,
     usedExports: true,
-    // runtimeChunk: 'single',
-    // splitChunks: {
+    runtimeChunk: 'single',
 
-    //   minSize: 17000,
-    //   minRemainingSize: 0,
-    //   minChunks: 1,
-    //   maxAsyncRequests: 30,
-    //   maxInitialRequests: 30,
-    //   automaticNameDelimiter: '_',
-    //   enforceSizeThreshold: 30000,
-    //   cacheGroups: {
-    //     common: {
-    //       test: /[\\/]node_modules[\\/]/,
-    //       priority: -5,
-    //       reuseExistingChunk: true,
-    //       chunks: 'initial',
-    //       name: 'common_app',
-    //       minSize: 0,
-    //     },
-    //     default: {
-    //       minChunks: 2,
-    //       priority: -20,
-    //       reuseExistingChunk: true,
-    //     },
-    //     defaultVendors: false,
-    //     reactPackage: {
-    //       test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
-    //       name: 'vendor_react',
-    //       chunks: 'all',
-    //       priority: 10,
-    //     },
-    //   },
-    // },
-    minimizer: IS_PROD ? [
+    splitChunks: {
+
+      minSize: 17000,
+      minRemainingSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      automaticNameDelimiter: '_',
+      enforceSizeThreshold: 30000,
+      cacheGroups: {
+        common: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -5,
+          reuseExistingChunk: true,
+          chunks: 'initial',
+          name: 'common_app',
+          minSize: 0,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+        defaultVendors: false,
+        reactPackage: {
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+          name: 'vendor_react',
+          chunks: 'all',
+          priority: 10,
+        },
+      },
+    },
+    minimizer: IS_DEV ? [
+      new BundleAnalyzerPlugin(),
+    ] : [
       new TerserPlugin({
         terserOptions: {
           format: {
@@ -177,7 +165,7 @@ module.exports = {
         parallel: true,
       }),
       new CssMinimizerPlugin(),
-    ] : [],
+    ],
   },
 
   devtool: setupDevtool(),
