@@ -1,11 +1,38 @@
 const path = require('path');
 
+const express = require('express');
 const webpack = require('webpack');
 const nodemon = require('nodemon');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
-const webpackConfig = require('../webpack.config');
+const [webpackClientConfig, webpackServerConfig] = require('../webpack.config');
 
-const compiler = webpack(webpackConfig);
+const hmrServer = express();
+const clientCompiler = webpack(webpackClientConfig);
+
+hmrServer.use(webpackDevMiddleware(clientCompiler, {
+  publicPath: webpackClientConfig.output.publicPath,
+  serverSideRender: true,
+  // noInfo: true, //ERROR
+  // watchOptions: { //ERROR
+  //   ignore: /dist/,
+  // },
+  writeToDisk: true,
+  stats: 'errors-only',
+}));
+
+hmrServer.use(webpackHotMiddleware(clientCompiler, {
+  path: '/static/__webpack_hmr',
+}));
+
+// hmrServer.use(webpackHotMiddleware(clientCompiler));
+
+hmrServer.listen(3001, () => {
+  console.log('Hmr Server successfully started');
+});
+
+const compiler = webpack(webpackServerConfig);
 
 compiler.run((err) => {
   if (err) {

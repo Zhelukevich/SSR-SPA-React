@@ -2,5 +2,5 @@ import React from 'react';
 
 
 export function App() {
-  return <div>Appppвеаонпp</div>;
+  return <div>Hello word !!!!</div>;
 }

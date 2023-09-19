@@ -1,5 +1,7 @@
 const path = require('path');
 
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const { HotModuleReplacementPlugin } = require('webpack');
 // const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -33,7 +35,10 @@ module.exports = {
       '@__mocks__': path.resolve(__dirname, 'src/__mocks__'),
     },
   },
-  entry: path.resolve(__dirname, '../src/client/index.jsx'),
+  entry: [
+    path.resolve(__dirname, '../src/client/index.jsx'),
+    'webpack-hot-middleware/client?path=http://localhost:3001/static/__webpack_hmr',
+  ],
   output: {
     path: path.resolve(__dirname, '../dist/client'),
     // filename: '[name].[contenthash].js',
@@ -53,6 +58,10 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-react'],
+            plugins: [require.resolve('react-refresh/babel')],
+          },
         },
       },
       {
@@ -102,6 +111,8 @@ module.exports = {
 
   plugins: IS_DEV ? [
     new CleanWebpackPlugin(),
+    new HotModuleReplacementPlugin(),
+    new ReactRefreshWebpackPlugin(),
     // new CopyWebpackPlugin({
     //   patterns: [{ from: 'public/favicons', to: 'favicons' }],
     // }),
